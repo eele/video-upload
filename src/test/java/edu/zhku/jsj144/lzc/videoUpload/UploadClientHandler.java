@@ -1,0 +1,44 @@
+package edu.zhku.jsj144.lzc.videoUpload;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+import edu.zhku.jsj144.lzc.videoUpload.object.Info;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.DefaultFileRegion;
+
+public class UploadClientHandler extends SimpleChannelInboundHandler<String> {
+
+	private RandomAccessFile raf = null;
+	private long totalLength = -1;
+	private Info info;
+	private String localFilepath;
+
+	public UploadClientHandler(Info info, String localFilepath) {
+		this.info = info;
+		this.localFilepath = localFilepath;
+	}
+
+	@Override
+	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+		try {
+			raf = new RandomAccessFile(localFilepath, "r");
+			totalLength = raf.length();
+			ctx.write(new DefaultFileRegion(raf.getChannel(), info.getFinishedSize(), totalLength));
+			ctx.writeAndFlush("\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (totalLength < 0 && raf != null) {
+				raf.close();
+			}
+		}
+	}
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+		// TODO Auto-generated method stub
+	}
+
+}
