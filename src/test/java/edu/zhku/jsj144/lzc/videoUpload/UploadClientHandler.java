@@ -21,7 +21,7 @@ public class UploadClientHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+	public void handlerAdded(ChannelHandlerContext ctx) throws IOException {
 		try {
 			raf = new RandomAccessFile(localFilepath, "r");
 			totalLength = raf.length();
@@ -37,7 +37,7 @@ public class UploadClientHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, String msg) {
 		// TODO Auto-generated method stub
 	}
 

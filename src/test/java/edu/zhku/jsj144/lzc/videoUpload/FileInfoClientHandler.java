@@ -12,9 +12,7 @@ public class FileInfoClientHandler extends SimpleChannelInboundHandler<Info> {
 	private String localFilepath = "/Users/apple/Documents/a.mp4";
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Info msg) throws Exception {
-		System.err.println("c send file");
-		
+	protected void channelRead0(ChannelHandlerContext ctx, Info msg) {
 		ctx.pipeline().remove(this);
 		ctx.pipeline().remove("encoder");
 		ctx.pipeline().remove("decoder");
@@ -27,7 +25,6 @@ public class FileInfoClientHandler extends SimpleChannelInboundHandler<Info> {
 		Info info = new Info("FILEINFO");
 		info.setTotalsize(new File(localFilepath).length());
 		ctx.writeAndFlush(info);
-		System.err.println("c FileInfo");
 	}
 
 }
