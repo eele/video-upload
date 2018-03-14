@@ -1,4 +1,4 @@
-package edu.zhku.jsj144.lzc.videoUpload.object;
+package edu.zhku.jsj144.lzc.video.util.uploadUtil;
 
 import java.io.Serializable;
 
@@ -55,8 +55,4 @@ public class Info implements Serializable {
 		this.vid = vid;
 	}
 	
-	public String getFilepath() {
-		return "/Users/apple/Documents/1.mp4";
-	}
-
 }

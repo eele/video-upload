@@ -2,14 +2,15 @@ package edu.zhku.jsj144.lzc.videoUpload;
 
 import java.io.File;
 import java.io.IOException;
-import edu.zhku.jsj144.lzc.videoUpload.object.Info;
+
+import edu.zhku.jsj144.lzc.video.util.uploadUtil.Info;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.channel.ChannelHandlerContext;
 
 public class FileInfoClientHandler extends SimpleChannelInboundHandler<Info> {
 	
-	private String localFilepath = "/Users/apple/Documents/a.mp4";
+	private String localFilepath = "D:\\Users\\ele\\Downloads\\S8TBL29I2.flv";
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Info msg) {

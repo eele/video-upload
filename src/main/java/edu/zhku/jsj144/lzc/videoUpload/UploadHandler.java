@@ -3,9 +3,9 @@ package edu.zhku.jsj144.lzc.videoUpload;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-
-import edu.zhku.jsj144.lzc.videoUpload.object.Info;
+import edu.zhku.jsj144.lzc.video.util.uploadUtil.Info;
+import edu.zhku.jsj144.lzc.videoUpload.service.UploadInfoService;
+import edu.zhku.jsj144.lzc.videoUpload.transcoding.VideoTranscodingHandlerThread;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,13 +15,21 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	private Info info;
 	private long readedSize = 0;
 	private FileOutputStream ofs;
+	private UploadInfoService uploadInfoService;
 
-	public UploadHandler(Info info) {
+	public UploadHandler(Info info, String basePath, UploadInfoService uploadInfoService) {
 		this.info = info;
+		this.uploadInfoService = uploadInfoService;
 		
 		try {
-			File file = new File(info.getFilepath());
-			ofs = new FileOutputStream(file);
+			File file = new File(basePath + "/" + info.getUid() + "/" + info.getVid());
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			if (file.exists()) {
+				readedSize = file.length();
+			}
+			ofs = new FileOutputStream(file, true);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,21 +37,28 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws IOException {
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ByteBuf buf = (ByteBuf) msg;
 		readedSize += buf.readableBytes();
+		uploadInfoService.setUploadProgress(info.getVid(), (int) ((double) readedSize / info.getTotalsize() * 100));
+		
+		System.out.println(info.getTotalsize() + "   " + readedSize + "   " + buf.readableBytes());
 		if (buf.isReadable()) {
 			byte[] bytes = new byte[buf.readableBytes()];
 			buf.readBytes(bytes);
 			ofs.write(bytes);
 		}
 
-		System.out.println(info.getTotalsize() + "   " + readedSize);
 
+		// 上传完成
 		if (readedSize >= info.getTotalsize()) {
+			uploadInfoService.setUploadFinished(info.getVid());
 			ctx.pipeline().remove(this);
 			ofs.close();
 			ctx.close();
+			
+			// 添加转码任务
+			VideoTranscodingHandlerThread.addTask(info);
 		}
 		buf.release();
 	}
@@ -54,5 +69,13 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 		cause.printStackTrace();
 		ctx.close();
 	}
+	
+	@Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		ctx.pipeline().remove(this);
+		ofs.close();
+		ctx.close();
+        super.channelInactive(ctx);
+    }
 	
 }

@@ -1,17 +1,29 @@
 package edu.zhku.jsj144.lzc.videoUpload;
 
 import java.io.File;
-import edu.zhku.jsj144.lzc.videoUpload.object.Info;
+
+import edu.zhku.jsj144.lzc.video.util.uploadUtil.Info;
+import edu.zhku.jsj144.lzc.videoUpload.service.UploadInfoService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class FileInfoHandler extends ChannelInboundHandlerAdapter {
+	
+	private String basePath;
+	private UploadInfoService uploadInfoService;
+
+	public FileInfoHandler(String basePath, UploadInfoService uploadInfoService) {
+		this.basePath = basePath;
+		this.uploadInfoService = uploadInfoService;
+	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) {
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		Info info;
-		try {
-			File file = new File(((Info) msg).getFilepath());
+		if (! uploadInfoService.isPreparedToUpload(((Info) msg).getVid())) { // 无效的待上传视频ID
+			info = new Info("INVALID");
+		} else {
+			File file = new File(basePath + "/" + ((Info) msg).getUid() + "/" + ((Info) msg).getVid());
 			if (file.exists()) {
 				info = new Info("UNFINISHED");
 				if (file.length() == ((Info) msg).getTotalsize()) {
@@ -22,14 +34,13 @@ public class FileInfoHandler extends ChannelInboundHandlerAdapter {
 				info = new Info("NEW");
 				info.setFinishedSize(0);
 			}
-			ctx.pipeline().addLast(new UploadHandler((Info) msg));
-			ctx.writeAndFlush(info);
-			ctx.pipeline().remove(this);
-			ctx.pipeline().remove("encoder");
-			ctx.pipeline().remove("decoder");
-		} catch (IllegalStateException e) {
-			ctx.close();
+			ctx.pipeline().addLast(new UploadHandler((Info) msg, basePath, uploadInfoService));
 		}
+		
+		ctx.writeAndFlush(info);
+		ctx.pipeline().remove(this);
+		ctx.pipeline().remove("encoder");
+		ctx.pipeline().remove("decoder");
 	}
 
 	@Override

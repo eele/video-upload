@@ -21,7 +21,7 @@ public class Client {
 			bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
 
 				@Override
-				protected void initChannel(SocketChannel ch) throws Exception {
+				protected void initChannel(SocketChannel ch) {
 					ch.pipeline().addLast("decoder",
 							new ObjectDecoder(ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
 					ch.pipeline().addLast("encoder", new ObjectEncoder());

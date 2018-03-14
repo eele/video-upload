@@ -1,5 +1,11 @@
 package edu.zhku.jsj144.lzc.videoUpload;
 
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+
+import edu.zhku.jsj144.lzc.videoUpload.service.UploadInfoService;
+import edu.zhku.jsj144.lzc.videoUpload.service.impl.UploadInfoServiceImpl;
+import edu.zhku.jsj144.lzc.videoUpload.transcoding.VideoTranscodingHandlerThread;
 import io.netty.bootstrap.ServerBootstrap;
 
 import io.netty.channel.ChannelFuture;
@@ -18,9 +24,12 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 public class VideoUploadServer {
 
 	private int port;
+	private String basePath;
+	private static UploadInfoService uploadInfoService = new UploadInfoServiceImpl();
 
-	public VideoUploadServer(int port) {
+	public VideoUploadServer(int port, String basePath) {
 		this.port = port;
+		this.basePath = basePath;
 	}
 
 	public void run() throws Exception {
@@ -36,7 +45,7 @@ public class VideoUploadServer {
 							ch.pipeline().addLast("decoder",
 									new ObjectDecoder(ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
 							ch.pipeline().addLast("encoder", new ObjectEncoder());
-							ch.pipeline().addLast("handler", new FileInfoHandler());
+							ch.pipeline().addLast("handler", new FileInfoHandler(basePath, uploadInfoService));
 						}
 
 					});
@@ -61,6 +70,23 @@ public class VideoUploadServer {
 		} else {
 			port = 8086;
 		}
-		new VideoUploadServer(port).run();
+
+		// 发布rest服务
+		// 1  构建服务工厂对象
+		JAXRSServerFactoryBean jaxrsServiceFactoryBean = new JAXRSServerFactoryBean();
+		// 2  设置 服务地址
+		jaxrsServiceFactoryBean.setAddress("http://localhost:8088/service");
+		// 3  设置JSON转换工具
+		jaxrsServiceFactoryBean.setProvider(new JacksonJaxbJsonProvider());
+		// 4  设置 服务对象.自动反射接口
+		jaxrsServiceFactoryBean.setServiceBean(new UploadInfoServiceImpl());
+		// 5  创建并发布
+		jaxrsServiceFactoryBean.create();
+
+		// 启动视频转码线程
+		new VideoTranscodingHandlerThread("D:").start();
+
+		// 启动上传服务
+		new VideoUploadServer(port, "D:").run();
 	}
 }

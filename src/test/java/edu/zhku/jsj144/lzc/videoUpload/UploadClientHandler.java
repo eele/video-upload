@@ -3,7 +3,7 @@ package edu.zhku.jsj144.lzc.videoUpload;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import edu.zhku.jsj144.lzc.videoUpload.object.Info;
+import edu.zhku.jsj144.lzc.video.util.uploadUtil.Info;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.DefaultFileRegion;
