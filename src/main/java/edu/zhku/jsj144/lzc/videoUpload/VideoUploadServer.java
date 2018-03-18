@@ -1,6 +1,7 @@
 package edu.zhku.jsj144.lzc.videoUpload;
 
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 
 import edu.zhku.jsj144.lzc.videoUpload.service.UploadInfoService;
@@ -75,9 +76,11 @@ public class VideoUploadServer {
 		// 1  构建服务工厂对象
 		JAXRSServerFactoryBean jaxrsServiceFactoryBean = new JAXRSServerFactoryBean();
 		// 2  设置 服务地址
-		jaxrsServiceFactoryBean.setAddress("http://localhost:8088/service");
+		jaxrsServiceFactoryBean.setAddress("http://192.168.0.149:8088/service");
 		// 3  设置JSON转换工具
 		jaxrsServiceFactoryBean.setProvider(new JacksonJaxbJsonProvider());
+
+        jaxrsServiceFactoryBean.setProvider(new CrossOriginResourceSharingFilter());
 		// 4  设置 服务对象.自动反射接口
 		jaxrsServiceFactoryBean.setServiceBean(new UploadInfoServiceImpl());
 		// 5  创建并发布

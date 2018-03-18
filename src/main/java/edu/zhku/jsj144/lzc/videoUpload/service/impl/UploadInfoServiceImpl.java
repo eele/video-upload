@@ -12,7 +12,7 @@ import edu.zhku.jsj144.lzc.videoUpload.service.entity.UploadProgressInfo;
 public class UploadInfoServiceImpl implements UploadInfoService {
 
 	private JaxWsDynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
-	private Client dynamicClient = clientFactory.createClient("http://localhost:8080/video/service/r?wsdl");
+	private Client dynamicClient = clientFactory.createClient("http://localhost:8080/video/service/p?wsdl");
 
 	private static Map<String, Integer> uploadMap = new HashMap<String, Integer>(); // vid与视频上传进度的映射
 

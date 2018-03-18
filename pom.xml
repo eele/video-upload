@@ -79,6 +79,14 @@
 			<artifactId>jackson-xc</artifactId>
 			<version>1.9.2</version>
 		</dependency>
+
+		<!-- Cors -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-security-cors</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>video</finalName>
