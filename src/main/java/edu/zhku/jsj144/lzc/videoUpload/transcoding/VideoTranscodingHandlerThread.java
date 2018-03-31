@@ -11,7 +11,7 @@ public class VideoTranscodingHandlerThread extends Thread {
 
 	private static Queue<Info> q = new LinkedBlockingQueue<Info>();
 	private String basePath;
-	private String execPath = "D:\\Users\\ele\\Downloads\\ffmpeg_\\bin\\ffmpeg ";
+	private String execPath = "D:\\Users\\ele\\Downloads\\ffmpeg_\\bin\\ffmpeg.exe ";
 	
 	public VideoTranscodingHandlerThread(String basePath) {
 		this.basePath = basePath;
@@ -36,16 +36,16 @@ public class VideoTranscodingHandlerThread extends Thread {
 				new File(videoPath + "_").mkdir();
 				
 				System.out.println(execPath + "-i " + videoPath + " -acodec copy -vcodec copy " + videoPath + "_/" + "video.mp4");
-				System.out.println(execPath + "-i " + videoPath + "_/" + "video.mp4" + " -c copy -bsf h264_mp4toannexb " + videoPath + "_/" + "output.ts");
+				System.out.println(execPath + "-i " + videoPath + "_/" + "video.mp4" + " -c copy -bsf:v h264_mp4toannexb " + videoPath + "_/" + "output.ts");
 				System.out.println(execPath + "-i " + videoPath + "_/" + "output.ts" + " -c copy -map 0 -f segment -segment_list " + 
 								videoPath + "_/" + "playlist.m3u8 -segment_time 10 " + videoPath + "_/" + "output%03d.ts");
-				
+
 				Runtime.getRuntime().exec(
 						execPath + "-i " + videoPath + " -acodec copy -vcodec copy " + videoPath + "_/" + "video.mp4");
 				Runtime.getRuntime().exec(
-						execPath + "-i " + videoPath + "_/" + "video.mp4" + " -c copy -bsf h264_mp4toannexb " + videoPath + "_/" + "output.ts");
+						execPath + "-i " + videoPath + "_/" + "video.mp4" + " -c copy -bsf:v h264_mp4toannexb " + videoPath + "_/" + "output.ts");
 				Runtime.getRuntime().exec(
-						execPath + "-i " + videoPath + "_/" + "output.ts" + " -c copy -map 0 -f segment -segment_list " + 
+						execPath + "-i " + videoPath + "_/" + "output.ts" + " -c copy -map 0 -f segment -segment_list " +
 								videoPath + "_/" + "playlist.m3u8 -segment_time 10 " + videoPath + "_/" + "output%03d.ts");
 				
 			} catch (InterruptedException e) {

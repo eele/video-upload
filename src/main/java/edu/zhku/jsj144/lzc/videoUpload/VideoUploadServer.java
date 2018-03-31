@@ -79,11 +79,11 @@ public class VideoUploadServer {
 		jaxrsServiceFactoryBean.setAddress("http://192.168.0.149:8088/service");
 		// 3  设置JSON转换工具
 		jaxrsServiceFactoryBean.setProvider(new JacksonJaxbJsonProvider());
-
+        // 4  设置跨域过滤器
         jaxrsServiceFactoryBean.setProvider(new CrossOriginResourceSharingFilter());
-		// 4  设置 服务对象.自动反射接口
+		// 5  设置 服务对象.自动反射接口
 		jaxrsServiceFactoryBean.setServiceBean(new UploadInfoServiceImpl());
-		// 5  创建并发布
+		// 6  创建并发布
 		jaxrsServiceFactoryBean.create();
 
 		// 启动视频转码线程
