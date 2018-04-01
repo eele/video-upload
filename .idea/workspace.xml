@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8400610f-67b8-46d8-ab42-4fc7233b6b5e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/VideoUploadServer.java" afterPath="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/VideoUploadServer.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java" afterPath="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/edu/zhku/jsj144/lzc/videoUpload/A.class" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,11 +25,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoTranscodingHandlerThread.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VideoTranscodingHandlerThread.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="48" column="122" lean-forward="false" selection-start-line="48" selection-start-column="122" selection-end-line="48" selection-end-column="122" />
+            <state relative-caret-position="484">
+              <caret line="59" column="1" lean-forward="false" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UploadHandler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/UploadHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="499">
+              <caret line="33" column="46" lean-forward="true" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FileInfoHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/FileInfoHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="311">
+              <caret line="31" column="52" lean-forward="true" selection-start-line="31" selection-start-column="52" selection-end-line="31" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -66,8 +85,8 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/VideoUploadServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/FileInfoHandler.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/zhku/jsj144/lzc/videoUpload/a.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/zhku/jsj144/lzc/videoUpload/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java" />
       </list>
     </option>
   </component>
@@ -224,7 +243,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.A">
+  <component name="RunManager" selected="Application.VideoUploadServer">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -369,9 +388,9 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.A" />
-        <item index="1" class="java.lang.String" itemvalue="Application.a" />
-        <item index="2" class="java.lang.String" itemvalue="Application.VideoUploadServer" />
+        <item index="0" class="java.lang.String" itemvalue="Application.VideoUploadServer" />
+        <item index="1" class="java.lang.String" itemvalue="Application.A" />
+        <item index="2" class="java.lang.String" itemvalue="Application.a" />
       </list>
     </recent_temporary>
   </component>
@@ -390,12 +409,12 @@
       <updated>1521128147957</updated>
       <workItem from="1521128150183" duration="2450000" />
       <workItem from="1521259886569" duration="20958000" />
-      <workItem from="1522246739485" duration="15281000" />
+      <workItem from="1522246739485" duration="21659000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38689000" />
+    <option name="totallyTimeSpent" value="45067000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -490,14 +509,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/service/impl/UploadInfoServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="20" column="71" lean-forward="false" selection-start-line="20" selection-start-column="71" selection-end-line="20" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/service/UploadInfoService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -514,30 +525,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/FileInfoHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="16" column="51" lean-forward="false" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/VideoUploadServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1078">
-          <caret line="86" column="41" lean-forward="false" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/UploadHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-943">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/edu/zhku/jsj144/lzc/videoUpload/A.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -548,8 +535,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/transcoding/VideoTranscodingHandlerThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="48" column="122" lean-forward="false" selection-start-line="48" selection-start-column="122" selection-end-line="48" selection-end-column="122" />
+        <state relative-caret-position="484">
+          <caret line="59" column="1" lean-forward="false" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/VideoUploadServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="86" column="41" lean-forward="false" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/service/impl/UploadInfoServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="20" column="71" lean-forward="false" selection-start-line="20" selection-start-column="71" selection-end-line="20" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/FileInfoHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="31" column="52" lean-forward="true" selection-start-line="31" selection-start-column="52" selection-end-line="31" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/zhku/jsj144/lzc/videoUpload/UploadHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="33" column="46" lean-forward="true" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
           <folding />
         </state>
       </provider>
