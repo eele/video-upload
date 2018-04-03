@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.zhku.jsj144.lzc</groupId>
-	<artifactId>videoUpload</artifactId>
+	<artifactId>video-upload</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>videoUpload</name>
+	<name>video-upload</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
