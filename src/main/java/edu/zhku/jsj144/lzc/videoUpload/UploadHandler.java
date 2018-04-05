@@ -20,7 +20,6 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	public UploadHandler(Info info, String basePath, UploadInfoService uploadInfoService) {
 		this.info = info;
 		this.uploadInfoService = uploadInfoService;
-		
 		try {
 			File file = new File(basePath + "/" + info.getUid() + "/" + info.getVid());
 			if (!file.getParentFile().exists()) {
@@ -40,8 +39,6 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ByteBuf buf = (ByteBuf) msg;
 		readedSize += buf.readableBytes();
-		uploadInfoService.setUploadProgress(info.getVid(), (int) ((double) readedSize / info.getTotalsize() * 100));
-		
 		System.out.println(info.getTotalsize() + "   " + readedSize + "   " + buf.readableBytes());
 		if (buf.isReadable()) {
 			byte[] bytes = new byte[buf.readableBytes()];
@@ -52,7 +49,6 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 
 		// 上传完成
 		if (readedSize >= info.getTotalsize()) {
-			uploadInfoService.setUploadFinished(info.getVid());
 			ctx.pipeline().remove(this);
 			ofs.close();
 			ctx.close();

@@ -10,6 +10,7 @@ public class Info implements Serializable {
 	private long totalsize;
 	private String uid;
 	private String vid;
+	private String token;
 
 	public Info(String message) {
 		this.message = message;
@@ -47,12 +48,19 @@ public class Info implements Serializable {
 		this.uid = uid;
 	}
 
-	public String getVid() {
-		return vid;
+    public String getVid() {
+        return vid;
+    }
+
+    public void setVid(String vid) {
+        this.vid = vid;
+    }
+
+    public String getToken() {
+		return token;
 	}
 
-	public void setVid(String vid) {
-		this.vid = vid;
+	public void setToken(String token) {
+		this.token = token;
 	}
-	
 }

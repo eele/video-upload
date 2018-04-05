@@ -30,7 +30,12 @@ public class VideoTranscodingHandlerThread extends Thread {
 		while(true) {
 			try {
 				Info videoInfo = ((LinkedBlockingQueue<Info>) q).take();
-				Runtime.getRuntime().exec("sh /usr/local/tomcat/video.sh " + videoInfo.getUid() + " " + videoInfo.getVid());
+				Process proc = Runtime.getRuntime().exec("sh /usr/local/tomcat/video.sh " + videoInfo.getUid() + " " + videoInfo.getVid());
+				StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), "ERR");
+				StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), "OUT");
+				errorGobbler.start();
+				outputGobbler.start();
+				proc.waitFor();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

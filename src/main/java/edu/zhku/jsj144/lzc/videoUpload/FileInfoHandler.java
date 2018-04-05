@@ -20,23 +20,28 @@ public class FileInfoHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		Info info;
-		if (! uploadInfoService.isPreparedToUpload(((Info) msg).getVid())) { // 无效的待上传视频ID
-			info = new Info("INVALID");
-		} else {
-			File file = new File(basePath + "/" + ((Info) msg).getUid() + "/" + ((Info) msg).getVid());
-			if (file.exists()) {
-				info = new Info("UNFINISHED");
-				if (file.length() == ((Info) msg).getTotalsize()) {
-					throw new IllegalStateException();
-				}
-				info.setFinishedSize(file.length());
-			} else {
-				info = new Info("NEW");
-				info.setFinishedSize(0);
-			}
-			ctx.pipeline().addLast(new UploadHandler((Info) msg, basePath, uploadInfoService));
-		}
-		
+		try {
+            uploadInfoService.checkToken(((Info) msg).getToken());
+            // Token验证有效
+            File file = new File(basePath + "/" + ((Info) msg).getUid() + "/" + ((Info) msg).getVid());
+            if (file.exists()) {
+                info = new Info("UNFINISHED");
+                if (file.length() == ((Info) msg).getTotalsize()) {
+                    throw new IllegalStateException();
+                }
+                info.setFinishedSize(file.length());
+            } else {
+                info = new Info("NEW");
+                info.setFinishedSize(0);
+            }
+            info.setVid(((Info) msg).getVid());
+            ctx.pipeline().addLast(new UploadHandler((Info) msg, basePath, uploadInfoService));
+        } catch (Exception e) {
+            System.err.println("aaaaaaaaaaaaaaaaaa");
+            // Token验证无效
+            info = new Info("INVALID");
+        }
+
 		ctx.writeAndFlush(info);
 		ctx.pipeline().remove(this);
 		ctx.pipeline().remove("encoder");
