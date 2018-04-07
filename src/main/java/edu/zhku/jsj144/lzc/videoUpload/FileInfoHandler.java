@@ -36,16 +36,16 @@ public class FileInfoHandler extends ChannelInboundHandlerAdapter {
             }
             info.setVid(((Info) msg).getVid());
             ctx.pipeline().addLast(new UploadHandler((Info) msg, basePath, uploadInfoService));
+            ctx.writeAndFlush(info);
+            ctx.pipeline().remove(this);
+            ctx.pipeline().remove("encoder");
+            ctx.pipeline().remove("decoder");
         } catch (Exception e) {
-            System.err.println("aaaaaaaaaaaaaaaaaa");
             // Token验证无效
             info = new Info("INVALID");
+            ctx.writeAndFlush(info);
+            ctx.close();
         }
-
-		ctx.writeAndFlush(info);
-		ctx.pipeline().remove(this);
-		ctx.pipeline().remove("encoder");
-		ctx.pipeline().remove("decoder");
 	}
 
 	@Override
