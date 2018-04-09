@@ -19,6 +19,11 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
+import javax.xml.ws.Endpoint;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * VideoUploads any incoming data.
  */
@@ -26,9 +31,17 @@ public class VideoUploadServer {
 
 	private int port;
 	private String basePath;
-	private static UploadInfoService uploadInfoService = new UploadInfoServiceImpl();
+	private static UploadInfoService uploadInfoService;
 
-	public VideoUploadServer(int port, String basePath) {
+    static {
+        try {
+            uploadInfoService = new UploadInfoServiceImpl();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public VideoUploadServer(int port, String basePath) {
 		this.port = port;
 		this.basePath = basePath;
 	}
@@ -65,17 +78,27 @@ public class VideoUploadServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		int port;
-		if (args.length > 0) {
-			port = Integer.parseInt(args[0]);
-		} else {
-			port = 8086;
+        Properties properties = new Properties();
+	    properties.load(
+	            VideoUploadServer.class.getClassLoader().getResourceAsStream("server.properties"));
+
+		int port = 8086;
+		if (properties.getProperty("port") != null) {
+			port = Integer.parseInt(properties.getProperty("port"));
 		}
 
+		String videoDir = properties.getProperty("videodir");
+		if (videoDir == null) {
+			videoDir = "./videofiles";
+		}
+
+		// 发布Web服务
+        Endpoint.publish("http://localhost:8088/video/service/p", uploadInfoService);
+
 		// 启动视频转码线程
-		new VideoTranscodingHandlerThread("D:").start();
+		new VideoTranscodingHandlerThread().start();
 
 		// 启动上传服务
-		new VideoUploadServer(port, "D:").run();
+		new VideoUploadServer(port, videoDir).run();
 	}
 }

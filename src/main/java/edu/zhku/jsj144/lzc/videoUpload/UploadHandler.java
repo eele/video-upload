@@ -1,14 +1,18 @@
 package edu.zhku.jsj144.lzc.videoUpload;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import edu.zhku.jsj144.lzc.video.util.uploadUtil.Info;
 import edu.zhku.jsj144.lzc.videoUpload.service.UploadInfoService;
 import edu.zhku.jsj144.lzc.videoUpload.transcoding.VideoTranscodingHandlerThread;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class UploadHandler extends ChannelInboundHandlerAdapter {
 
@@ -16,6 +20,8 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	private long readedSize = 0;
 	private FileOutputStream ofs;
 	private UploadInfoService uploadInfoService;
+	private JaxWsDynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();
+	private Client dynamicClient;
 
 	public UploadHandler(Info info, String basePath, UploadInfoService uploadInfoService) {
 		this.info = info;
@@ -29,7 +35,16 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 				readedSize = file.length();
 			}
 			ofs = new FileOutputStream(file, true);
-		} catch (FileNotFoundException e) {
+
+			Properties properties = new Properties();
+			properties.load(
+					UploadHandler.class.getClassLoader().getResourceAsStream("server.properties"));
+			String url = properties.getProperty("info_service_wsdurl");
+			if (url == null) {
+				url = "http://localhost:8080/video/service/p?wsdl";
+			}
+			dynamicClient = clientFactory.createClient(url);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -39,7 +54,7 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ByteBuf buf = (ByteBuf) msg;
 		readedSize += buf.readableBytes();
-		System.out.println(info.getTotalsize() + "   " + readedSize + "   " + buf.readableBytes());
+//		System.out.println(info.getTotalsize() + "   " + readedSize + "   " + buf.readableBytes());
 		if (buf.isReadable()) {
 			byte[] bytes = new byte[buf.readableBytes()];
 			buf.readBytes(bytes);
@@ -49,6 +64,7 @@ public class UploadHandler extends ChannelInboundHandlerAdapter {
 
 		// 上传完成
 		if (readedSize >= info.getTotalsize()) {
+            dynamicClient.invoke("setUploadFinished", info.getVid());
 			ctx.pipeline().remove(this);
 			ofs.close();
 			ctx.close();
