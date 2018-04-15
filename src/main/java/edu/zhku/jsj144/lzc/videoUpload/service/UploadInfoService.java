@@ -12,4 +12,5 @@ public interface UploadInfoService {
 
 	public void checkToken(String token) throws Exception;
 
+    public void setUploadFinished(String token) throws Exception;
 }

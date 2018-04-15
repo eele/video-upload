@@ -49,6 +49,11 @@ public class UploadInfoServiceImpl implements UploadInfoService {
 		dynamicClient.invoke("checkToken", token);
 	}
 
+    @Override
+    public void setUploadFinished(String vid) throws Exception {
+        dynamicClient.invoke("setUploadFinished", vid);
+    }
+
     private void delDir(File f) {
         // 判断是否是一个目录, 不是的话跳过, 直接删除; 如果是一个目录, 先将其内容清空.
         if(f.isDirectory()) {
